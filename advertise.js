@@ -1,82 +1,83 @@
-const advertise = document.querySelector('.advertise');
-const body = document.querySelector('body');
-const btn = document.querySelector('.advertise .btn');
-const html = document.querySelector('html');
+const advertise = document.querySelector(".advertise");
+const body = document.querySelector("body");
+const btn = document.querySelector(".advertise .btn");
+const html = document.querySelector("html");
 let layer = null; // 弹窗
 
 let first = true;
 
 init();
 
-let goTop = document.createElement('div');
-goTop.innerHTML = '<div class="go_top_adv"><svg t="1731596237559" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3377" width="32" height="32"><path d="M512 74.666667C270.933333 74.666667 74.666667 270.933333 74.666667 512S270.933333 949.333333 512 949.333333 949.333333 753.066667 949.333333 512 753.066667 74.666667 512 74.666667z m0 810.666666c-204.8 0-373.333333-168.533333-373.333333-373.333333S307.2 138.666667 512 138.666667 885.333333 307.2 885.333333 512 716.8 885.333333 512 885.333333z" fill="#2c2c2c" p-id="3378"></path><path d="M533.333333 307.2c-12.8-10.666667-32-10.666667-44.8 0l-181.333333 170.666667c-12.8 12.8-12.8 32-2.133333 44.8s32 12.8 44.8 2.133333l128-119.466667v277.333334c0 17.066667 14.933333 32 32 32s32-14.933333 32-32V405.333333l128 119.466667c6.4 6.4 14.933333 8.533333 21.333333 8.533333 8.533333 0 17.066667-4.266667 23.466667-10.666666 12.8-12.8 10.666667-34.133333-2.133334-44.8l-179.2-170.666667z" fill="#2c2c2c" p-id="3379"></path></svg><div>回顶部</div></div>'
-goTop.className = 'aside_go_top';
+let goTop = document.createElement("div");
+goTop.innerHTML =
+  '<div class="go_top_adv"><svg t="1731596237559" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3377" width="32" height="32"><path d="M512 74.666667C270.933333 74.666667 74.666667 270.933333 74.666667 512S270.933333 949.333333 512 949.333333 949.333333 753.066667 949.333333 512 753.066667 74.666667 512 74.666667z m0 810.666666c-204.8 0-373.333333-168.533333-373.333333-373.333333S307.2 138.666667 512 138.666667 885.333333 307.2 885.333333 512 716.8 885.333333 512 885.333333z" fill="#2c2c2c" p-id="3378"></path><path d="M533.333333 307.2c-12.8-10.666667-32-10.666667-44.8 0l-181.333333 170.666667c-12.8 12.8-12.8 32-2.133333 44.8s32 12.8 44.8 2.133333l128-119.466667v277.333334c0 17.066667 14.933333 32 32 32s32-14.933333 32-32V405.333333l128 119.466667c6.4 6.4 14.933333 8.533333 21.333333 8.533333 8.533333 0 17.066667-4.266667 23.466667-10.666666 12.8-12.8 10.666667-34.133333-2.133334-44.8l-179.2-170.666667z" fill="#2c2c2c" p-id="3379"></path></svg><div>回顶部</div></div>';
+goTop.className = "aside_go_top";
 
 let flag = true;
-window.addEventListener('scroll', (e) => {
-
+window.addEventListener("scroll", (e) => {
   if (flag && window.scrollY >= 10) {
-    body.appendChild(goTop);
+    advertise.appendChild(goTop);
     flag = false;
-  } else if (body.querySelector('.aside_go_top') && window.scrollY < 10) {
-    body.removeChild(goTop);
+  } else if (body.querySelector(".aside_go_top") && window.scrollY < 10) {
+    advertise.removeChild(goTop);
     flag = true;
   }
-})
+});
 
-goTop.addEventListener('click', () => {
+goTop.addEventListener("click", () => {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth'
+    behavior: "smooth",
   });
-})
+});
 
-
-btn.addEventListener('click', () => {
-  if (body.querySelector('.advertise_layer')) return
-  body.appendChild(layer);
-  body.classList.add('body_mask');
-  const close = document.querySelector('.close_advertise');
-  close.addEventListener('click', () => {
-    const l = document.querySelector('.advertise_layer');
-    body.classList.remove('body_mask');
-    body.removeChild(l);
-    first = true;
-    window.removeEventListener('click', closeLayer);
-  });
-  window.addEventListener('click', closeLayer);
-
-}, true)
+btn.addEventListener(
+  "click",
+  () => {
+    if (body.querySelector(".advertise_layer")) return;
+    body.appendChild(layer);
+    body.classList.add("body_mask");
+    const close = document.querySelector(".close_advertise");
+    close.addEventListener("click", () => {
+      const l = document.querySelector(".advertise_layer");
+      body.classList.remove("body_mask");
+      body.removeChild(l);
+      first = true;
+      window.removeEventListener("click", closeLayer);
+    });
+    window.addEventListener("click", closeLayer);
+  },
+  true
+);
 
 function closeLayer(e) {
   e.preventDefault();
-  if (!first && e.target.className !== 'advertise_layer' ) {
-    if (e.target.closest('.advertise_layer')?.className === 'advertise_layer') return
-    body.classList.remove('body_mask');
+  if (!first && e.target.className !== "advertise_layer") {
+    if (e.target.closest(".advertise_layer")?.className === "advertise_layer")
+      return;
+    body.classList.remove("body_mask");
     body.removeChild(layer);
     first = true;
-    window.removeEventListener('click', closeLayer);
+    window.removeEventListener("click", closeLayer);
   } else {
     first = false;
   }
 }
 
-window.addEventListener('error', (e) => {
-  if (e.message.indexOf('removeChild') !== -1) {
-    const l = document.querySelector('.advertise_layer');
-    body.classList.remove('body_mask');
+window.addEventListener("error", (e) => {
+  if (e.message.indexOf("removeChild") !== -1) {
+    const l = document.querySelector(".advertise_layer");
+    body.classList.remove("body_mask");
     body.removeChild(layer);
-    window.removeEventListener('click', closeLayer);
+    window.removeEventListener("click", closeLayer);
   }
-
-})
+});
 
 function init() {
-  layer = document.createElement('div');
-  layer.className = 'advertise_layer';
+  layer = document.createElement("div");
+  layer.className = "advertise_layer";
   layer.innerHTML = content();
 }
-
 
 function content() {
   return `
@@ -178,5 +179,5 @@ NISP一级  380元<br />
 </html>
 
       
-  `
+  `;
 }
